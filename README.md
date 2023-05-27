@@ -12,7 +12,7 @@
 
 	> GoRouter
 	> Storage (Shared Preferences)
-	> Diogit commit -m “yv2”
+	> Dio
     > Flutter Localization
     > Flutter Bloc
     > Flex Color Scheme
