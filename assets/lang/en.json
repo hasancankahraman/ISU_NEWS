@@ -49,6 +49,8 @@
     "create_ticket" : "Create Support" ,
     "reply_support" : "Reply to Support",
     "reply1" : "Reply",
-    "reply2" : "To Answer"
+    "reply2" : "To Answer",
+    "status": "Status",
+    "update": "Last update"
 
 }

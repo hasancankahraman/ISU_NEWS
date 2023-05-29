@@ -48,6 +48,9 @@
     "create_ticket" : "Destek Oluştur" ,
     "reply_support" : "Desteğe Cevap Ver",
     "reply1" : "Cevap",
-    "reply2" : "Cevapla"
+    "reply2" : "Cevapla",
+    "status": "Durum",
+    "update": "Son güncelleme"
+
 
 }

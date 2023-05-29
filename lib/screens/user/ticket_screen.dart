@@ -141,7 +141,17 @@ class _TicketScreenState extends State<TicketScreen> {
         itemBuilder: (BuildContext context, int index) {
           final ticket = supports[index];
           final ticketId = ticket['id'];
-          final isSelected = ticket['isSelected'] ?? false;
+          Color statusColor = Colors.green; // Initial color is green
+
+          if (ticket['status'] == 'user_closed') {
+            statusColor =
+                Colors.red; // Change color to red for 'user_closed' status
+          }
+
+          // Exclude tickets with status 'user_closed' from the list if in editing mode
+          if (isEditing && ticket['status'] == 'user_closed') {
+            return SizedBox(); // Return an empty SizedBox to hide the ticket
+          }
           Widget tile;
           if (isEditing) {
             tile = RadioListTile<int>(
@@ -149,20 +159,86 @@ class _TicketScreenState extends State<TicketScreen> {
               groupValue: selectedSupportIds.isNotEmpty
                   ? selectedSupportIds.first
                   : null,
-              title: Text(ticket['title']),
-              subtitle: Text('Status: ${ticket['status']}'),
+              contentPadding: EdgeInsets.all(15),
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    ticket['title'],
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                ],
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${AppLocalizations.of(context).getTranslate('status')}: ${ticket['status']}',
+                    style: TextStyle(
+                      color: statusColor,
+                      fontSize: 14,
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    '${AppLocalizations.of(context).getTranslate('update')}: ${ticket['updated_at']}',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
+              ),
               onChanged: selectSupport,
             );
           } else {
             tile = ListTile(
-              title: Text(ticket['title']),
-              subtitle: Text('Status: ${ticket['status']}'),
+              contentPadding: EdgeInsets.all(15),
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    ticket['title'],
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                ],
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${AppLocalizations.of(context).getTranslate('status')}: ${ticket['status']}',
+                    style: TextStyle(
+                      color: statusColor,
+                      fontSize: 14,
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    '${AppLocalizations.of(context).getTranslate('update')}: ${ticket['updated_at']}',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
+              ),
               onTap: () {
                 ///
               },
             );
           }
           return Card(
+            elevation: 3,
+            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
             child: tile,
           );
         },
